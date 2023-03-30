@@ -1,0 +1,76 @@
+.fractals(:class="{darkmode: getDarkmode}")
+  .actions
+    button.btn.icon.btn-darkmode(@click="switchDarkmode")
+      transition(name="fade" mode="out-in")
+        i.fas.fa-fw.fa-moon(v-if="getDarkmode")
+        i.fas.fa-fw.fa-lightbulb(v-else)
+    button.btn.icon.btn-refresh(ref="refresh" v-show="!general.realtime")
+      i.fas.fa-sync.fa-fw
+  .fractal-view
+    canvas(ref="fractals" id="fractals" v-bind="canvaOptions")
+  .fractal-configuration(ref="settings")
+    h2(@mousedown="dragStart" @mouseup="dragEnd" @mousemove="drag") General
+    .slider 
+      h3 Realtime 
+      p
+      .input-checkbox
+        input(ref="realtime" type="checkbox" v-model="general.realtime")
+    h2 Árbol
+    .slider
+      h3 Profundidad
+      p {{tree.depth}}
+      vue-slider(v-model="tree.depth" v-bind="sliderOptions" :min="0" :max="20")
+    .slider(:class="{disabled: tree.randomQty}")
+      h3 Cantidad ramas
+      p {{tree.branches}}
+      vue-slider(v-model="tree.branches" v-bind="sliderOptions" :min="0" :max="5" :disabled="tree.randomQty")
+    .slider(:class="{disabled: general.realtime}")
+      h3 Ramas aleatorias
+      p
+      .input-checkbox
+        input(type="checkbox" v-model="tree.randomQty")
+    .slider
+      h3 Posición X
+      p {{tree.x}}
+      vue-slider(v-model="tree.x" v-bind="sliderOptions" :min="0" :max="canvaOptions.width")
+    .slider
+      h3 Posición Y
+      p {{tree.y}}
+      vue-slider(v-model="tree.y" v-bind="sliderOptions" :min="0" :max="canvaOptions.height")
+    .slider
+      h3 Color
+      .input-color(:style="{backgroundColor: tree.color}")
+        input(type="color" v-model="tree.color")
+      .input-text-lg
+        input(type="text" v-model="tree.color")
+    .slider
+      h3 Sombra
+      p {{tree.shadow}}
+      vue-slider(v-model="tree.shadow" v-bind="sliderOptions" :min="0" :max="1" :interval="0.1")
+    h2 Ramas
+    .slider
+      h3 Apertura
+      p {{branch.angle}}
+      vue-slider(v-model="branch.angle" v-bind="sliderOptions" :min="0" :max="360")
+    .slider(:class="{disabled: branch.randomLength}")
+      h3 Tamaño
+      p {{branch.length}}
+      vue-slider(v-model="branch.length" v-bind="sliderOptions" :min="1" :max="200" :disabled="branch.randomLength")
+    .slider(:class="{disabled: general.realtime}")
+      h3 Tamaño aleatorio 
+      p
+      .input-checkbox
+        input(type="checkbox" v-model="branch.randomLength")
+    .slider
+      h3 Anchura
+      p {{branch.width}}
+      vue-slider(v-model="branch.width" v-bind="sliderOptions" :min="1" :max="50")
+    .slider(:class="{disabled: branch.randomLength}")
+      h3 Tasa crecimmiento
+      p {{branch.lengthPercent * 100}}%
+      vue-slider(v-model="branch.lengthPercent" v-bind="sliderOptions" :min="0" :max="1" :interval="0.1" :disabled="branch.randomLength")
+    .slider
+      h3 Tasa anchura
+      p {{branch.widthPercent * 100}}%
+      vue-slider(v-model="branch.widthPercent" v-bind="sliderOptions" :min="0" :max="1" :interval="0.1")
+    
