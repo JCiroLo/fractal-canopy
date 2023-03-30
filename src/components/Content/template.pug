@@ -15,6 +15,8 @@
       p
       .input-checkbox
         input(ref="realtime" type="checkbox" v-model="general.realtime")
+    br
+    br
     h2 Árbol
     .slider
       h3 Profundidad
@@ -47,6 +49,8 @@
       h3 Sombra
       p {{tree.shadow}}
       vue-slider(v-model="tree.shadow" v-bind="sliderOptions" :min="0" :max="1" :interval="0.1")
+    br
+    br
     h2 Ramas
     .slider
       h3 Apertura
